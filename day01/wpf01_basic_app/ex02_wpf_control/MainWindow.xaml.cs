@@ -1,0 +1,72 @@
+﻿using System.Diagnostics;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace ex02_wpf_control
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var fonts = Fonts.SystemFontFamilies;
+            foreach (var Font in fonts)
+            {
+                CboFonts.Items.Add(Font);
+            }
+        }
+
+        void ChangeFont()
+        {
+            if (CboFonts.SelectedIndex < 0) return;
+
+            // MessageBox.Show(CboFonts.SelectedIndex.ToString());
+            Debug.WriteLine(CboFonts.SelectedItem.ToString());
+
+            TxtSampleText.FontFamily = CboFonts.SelectedItem as FontFamily;
+            if (ChkItalic.IsChecked == true) TxtSampleText.FontStyle = FontStyles.Italic;
+            else TxtSampleText.FontStyle = FontStyles.Normal;
+
+            if (ChkBold.IsChecked == true) TxtSampleText.FontWeight = FontWeights.Bold;
+            else TxtSampleText.FontWeight = FontWeights.Normal;
+        }
+
+
+        private void CboFonts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ChangeFont();
+        }
+
+        private void ChoBold_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont();
+
+        }
+
+        private void ChkItalic_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont();
+
+        }
+
+        private void ChkItalic_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont();
+        }
+    }
+}
