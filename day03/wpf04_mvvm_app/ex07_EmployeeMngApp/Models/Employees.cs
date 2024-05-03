@@ -8,31 +8,30 @@
         public string DeptName { get; set; }
         public string Addr {  get; set; }
 
-        public static readonly string SLELECT_QUERY = @"SELECT [id]
+        public static readonly string SLELECT_QUERY = @"SELECT [Id]
                                                               ,[EmpName]
                                                               ,[Salary]
                                                               ,[DeptName]
                                                               ,[Addr]
                                                           FROM [dbo].[Employees]";
+
         public static readonly string INSERT_QUERY = @"INSERT INTO [dbo].[Employees]
                                                                    ([EmpName]
                                                                    ,[Salary]
                                                                    ,[DeptName]
                                                                    ,[Addr])
-                                                                   ,
                                                              VALUES
-                                                                   @EmpName
+                                                                   (@EmpName
                                                                    ,@Salary
                                                                    ,@DeptName
-		                                                           ,@Addr";
+		                                                           ,@Addr)";
         public static readonly string UPDATE_QUERY = @"UPDATE [dbo].[Employees]
-                                                           SET (
-                                                               [EmpName] = @EmpName
-                                                              ,[Salary] = @Salary
-                                                              ,[DeptName] = @DeptName
-                                                              ,[Addr] = @Addr)
+                                                           SET [EmpName] = @EmpName
+                                                             , [Salary] = @Salary
+                                                             , [DeptName] = @DeptName
+                                                             , [Addr] = @Addr
                                                          WHERE Id = @Id";
-                                                        
+
         public static readonly string DELETE_QUERY = @"DELETE FROM[dbo].[Employees]
                                                        WHERE Id = @Id";
 
