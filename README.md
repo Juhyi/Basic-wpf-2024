@@ -13,7 +13,6 @@ IoT 개발자 WPF 학습리포지토리
         - 합치면 <Window /> - Window 태그 안에 다른객체가 없다는 뜻
         - 여는 태그와 닫는 태그 사이에 다른 태그(객체)를 넣어서 디자인
 
-
     - WPF 기본 사용법
         - Winforms와는 다르게 코딩으로 디자인함.
 
@@ -24,7 +23,6 @@ IoT 개발자 WPF 학습리포지토리
         4. Canvase - 미술에서 캔버스와 유사
         5. Margin - 여백기능, 앵커링 같이함(중요!)
     
-
 ## 2일차
 - WPF 기본학습
     - 데이터 바인딩 - 데이터소스(DB, 엑셀, txt, 클라우드에 보관된 데이터원본)에 데이터를 쉽게 가져다쓰기 위해 데이터 핸들링방법
@@ -109,5 +107,27 @@ IoT 개발자 WPF 학습리포지토리
     ![실행화면](https://raw.githubusercontent.com/Juhyi/basic-wpf-2024/main/image/wpf002.png)
 
 ## 5일차
-- Caliburn.Micro + MahApps.Metro
+- MahApps.Metro
     - Metro(Modern UI) 디자인 접목
+    
+    ![실행화면](https://raw.githubusercontent.com/Juhyi/basic-wpf-2024/main/image/wpf003.png)
+    
+    ![실행화면](https://raw.githubusercontent.com/Juhyi/basic-wpf-2024/main/image/wpf004.png)
+
+- Movie API 연동 앱
+    - DB(SQL Server) 연동
+    - MahApps.Metro
+    - OpenAPI 두가지 사용
+    - MVVM은 시간부족으로 사용안함
+    - 좋아하는 영화 즐겨찾기 앱
+    - [TMDB](https://www.themoviedb.org/) 활용
+        -  회원가입 후 API 신청
+    - [Youtube API](https://console.cloud.google.com/) 활용
+        - 새 프로젝트 생성
+        - API 및 서비스, 라이브러리 선택
+        - YouTube Data API v3 선택, 사용버튼 클릭
+        - 사용자 인증정보 만들기 클릭
+            1. 사용자 데이터 라디오버튼 클릭, 다음
+            2. OAutho 동의하면, 기본내용 입력 후 다음
+            3. 범위는 저장후 계속
+            4. OAuth client ID, 앱유형을 데스크톱앱, 이름 입력 후 만들기 클릭
