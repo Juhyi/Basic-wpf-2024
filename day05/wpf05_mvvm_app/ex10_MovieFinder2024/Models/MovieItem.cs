@@ -16,6 +16,10 @@
 
         public DateTime?  Reg_Date { get; set; }    // 최초에는 없기때문에 Nuliable 지정
 
+        public static readonly string CHECK_QUERY = @"SELECT COUNT(*) 
+                                                      FROM MovieItem
+                                                     WHERE Id = @Id";
+
         // 쿼리파트
         public static readonly string SLELECT_QUERY = @"SELECT [Id]
                                                               ,[Title]
