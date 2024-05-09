@@ -147,7 +147,10 @@ IoT 개발자 WPF 학습리포지토리
   
 
 
-https://github.com/Juhyi/Basic-wpf-2024/assets/158007405/9afc7f3f-82a2-49ac-a35b-270ab2cf5e0a
+
+
+
+https://github.com/Juhyi/Basic-wpf-2024/assets/158007405/54725352-15be-4d2a-bb4c-33e4a3564d7f
 
 
 
