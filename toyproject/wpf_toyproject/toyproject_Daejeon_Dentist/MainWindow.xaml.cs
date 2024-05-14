@@ -27,6 +27,8 @@ namespace toyproject_Daejeon_Dentist
     {
         private bool isFavorite = false;
 
+        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -288,13 +290,12 @@ namespace toyproject_Daejeon_Dentist
             
         }
 
-      
 
-        private void GrdResult_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+
+        private void GrdResult_SelectedCellsChanged(object Sender, SelectedCellsChangedEventArgs e) 
         {
-            
-
-            BrsLoc.Address = $"http://google.com/maps/place/";
+            var curItem = GrdResult.SelectedItem as dentistData;
+            BrsLoc.Address = $"http://google.com/maps/place/{curItem.Rn_adrs}";
         }
     }
 }
