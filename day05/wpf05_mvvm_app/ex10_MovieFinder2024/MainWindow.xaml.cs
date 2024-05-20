@@ -115,8 +115,8 @@ namespace ex10_MovieFinder2024
         {
             if (e.Key == Key.Enter)
             {
-                BtnSerch_Click(sender, e);  // 검색버튼 클릭 이벤트 핸들러 실행
             }
+                BtnSerch_Click(sender, e);  // 검색버튼 클릭 이벤트 핸들러 실행
         }
 
         private async void GrdResult_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
