@@ -38,12 +38,12 @@
                 <Button x:Name="BtnSaveData" Content="저장" Width="80"  Margin="5,10"
                         Style="{StaticResource MahApps.Styles.Button.Square.Highlight}"
                         Click="BtnSaveData_Click" />
-                <ComboBox x:Name="CboRepData" Width="150" Margin="5,10,10,10"
+                <ComboBox x:Name="CboRepDate" Width="150" Margin="5,10,10,10"
                           Style="{StaticResource MahApps.Styles.ComboBox}"
                           mah:TextBoxHelper.Watermark="검색날짜 선택"
                           mah:TextBoxHelper.UseFloatingWatermark="True"
                           mah:TextBoxHelper.ClearTextButton="True"
-                          SelectionChanged="CboRepData_SelectionChanged" />
+                          SelectionChanged="CboRepDate_SelectionChanged" />
             </StackPanel>
         </Grid>
         

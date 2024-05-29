@@ -51,14 +51,14 @@ namespace ex11_Gimhea_FineDust
                     saveDates.Add(Convert.ToString(row["Save_Date"]));
                 }
 
-                CboRepData.ItemsSource = saveDates;
+                CboRepDate.ItemsSource = saveDates;
             }
         }
 
         // 실시간 조회 버튼 클릭
         private async void BtnReqRealtime_Click(object sender, RoutedEventArgs e)
         {
-            string openApiUri = "\thttp://smartcity.gimhae.go.kr/smart_tour/dashboard/api/publicData/dustSensor";
+            string openApiUri = "http://smartcity.gimhae.go.kr/smart_tour/dashboard/api/publicData/dustSensor";
             string result = string.Empty;
 
             // WebRequest, WebResponse 객체
@@ -164,10 +164,7 @@ namespace ex11_Gimhea_FineDust
             InitComboDateFromDB();
         }
 
-        private void CboRepData_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         private void GrdResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -178,5 +175,50 @@ namespace ex11_Gimhea_FineDust
             mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             mapWindow.ShowDialog();
         }
+        private void CboRepDate_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CboRepDate.SelectedValue != null)
+            {
+                using (SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(Models.DustSensor.SELECT_QUERY, conn);
+                    cmd.Parameters.AddWithValue("@Timestamp", CboRepDate.SelectedValue.ToString());
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dSet = new DataSet();
+                    adapter.Fill(dSet, "Dustsensor");
+                    var dustSensors = new List<DustSensor>();
+
+                    foreach (DataRow row in dSet.Tables["Dustsensor"].Rows)
+                    {
+                        dustSensors.Add(new DustSensor
+                        {
+                            Id = Convert.ToInt32(row["Id"]),
+                            Dev_id = Convert.ToString(row["Dev_id"]),
+                            Name = Convert.ToString(row["Name"]),
+                            Loc = Convert.ToString(row["Loc"]),
+                            Coordx = Convert.ToDouble(row["Coordx"]),
+                            Coordy = Convert.ToDouble(row["Coordy"]),
+                            Ison = Convert.ToBoolean(row["Ison"]),
+                            Pm10_after = Convert.ToInt32(row["Pm10_after"]),
+                            Pm25_after = Convert.ToInt32(row["Pm25_after"]),
+                            State = Convert.ToInt32(row["State"]),
+                            Timestamp = Convert.ToDateTime(row["Timestamp"]),
+                            Company_id = Convert.ToString(row["Company_id"]),
+                            Company_name = Convert.ToString(row["Company_name"])
+                        });
+                    }
+
+                    this.DataContext = dustSensors;
+                    StsResult.Content = $"DB {dustSensors.Count}건 조회완료";
+                }
+            }
+            else
+            {
+                this.DataContext = null;
+                StsResult.Content = $"DB 조회클리어";
+            }
+        }
     }
-}
+ }
