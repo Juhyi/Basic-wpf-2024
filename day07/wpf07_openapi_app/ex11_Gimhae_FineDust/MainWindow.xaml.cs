@@ -11,14 +11,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ex11_Gimhea_FineDust.Models;
+using ex11_Gimhae_FineDust.Models;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace ex11_Gimhea_FineDust
+namespace ex11_Gimhae_FineDust
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -37,7 +37,7 @@ namespace ex11_Gimhea_FineDust
 
         private void InitComboDateFromDB()
         {
-            using(SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
+            using (SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(Models.DustSensor.GETDATE_QUERY, conn);
@@ -51,14 +51,14 @@ namespace ex11_Gimhea_FineDust
                     saveDates.Add(Convert.ToString(row["Save_Date"]));
                 }
 
-                CboRepDate.ItemsSource = saveDates;
+                CboReqDate.ItemsSource = saveDates;
             }
         }
 
-        // 실시간 조회 버튼 클릭
+        // 실시간조회 버튼 클릭
         private async void BtnReqRealtime_Click(object sender, RoutedEventArgs e)
         {
-            string openApiUri = "http://smartcity.gimhae.go.kr/smart_tour/dashboard/api/publicData/dustSensor";
+            string openApiUri = "https://smartcity.gimhae.go.kr/smart_tour/dashboard/api/publicData/dustSensor";
             string result = string.Empty;
 
             // WebRequest, WebResponse 객체
@@ -78,13 +78,13 @@ namespace ex11_Gimhea_FineDust
             }
             catch (Exception ex)
             {
-                await this.ShowMessageAsync("오류", $"OpenApi 조회오류 {ex.Message} ");
+                await this.ShowMessageAsync("오류", $"OpenAPI 조회오류 {ex.Message}");
             }
 
-            var jsonResult =JObject.Parse(result);
+            var jsonResult = JObject.Parse(result);
             var status = Convert.ToInt32(jsonResult["status"]);
-            
-            if(status == 200)
+
+            if (status == 200)
             {
                 var data = jsonResult["data"];
                 var jsonArray = data as JArray; // json자체에서 []안에 들어간 배열데이터만 JArray 변환가능
@@ -107,19 +107,19 @@ namespace ex11_Gimhea_FineDust
                         State = Convert.ToInt32(item["state"]),
                         Ison = Convert.ToBoolean(item["ison"]),
                         Timestamp = Convert.ToDateTime(item["timestamp"]),
-
                     });
                 }
-                 this.DataContext =dustSensors;
-                StsResult.Content = $"OpenAPI {dustSensors.Count}건 조회 완료.";
+
+                this.DataContext = dustSensors;
+                StsResult.Content = $"OpenAPI {dustSensors.Count}건 조회완료!";
             }
         }
 
         private async void BtnSaveData_Click(object sender, RoutedEventArgs e)
         {
-            if(GrdResult.Items.Count == 0)
+            if (GrdResult.Items.Count == 0)
             {
-                await this.ShowMessageAsync("저장오류", "실시간 조회 후 저장하십시오.");
+                await this.ShowMessageAsync("저장오류", "실시간 조회후 저장하십시오.");
                 return;
             }
 
@@ -149,43 +149,32 @@ namespace ex11_Gimhea_FineDust
                         insRes += cmd.ExecuteNonQuery();
                     }
 
-                    if( insRes > 0)
+                    if (insRes >0)
                     {
-                        await this.ShowMessageAsync("저장", "DB 저장성공");
-                        StsResult.Content = $"DB 저장 {insRes}건 성공";
+                        await this.ShowMessageAsync("저장", "DB저장성공!");
+                        StsResult.Content = $"DB저장 {insRes}건 성공!";
                     }
                 }
             }
             catch (Exception ex)
             {
-                await this.ShowMessageAsync("저장오류", $"저장오류{ex.Message }");
+                await this.ShowMessageAsync("저장오류", $"저장오류 {ex.Message}");
             }
 
             InitComboDateFromDB();
         }
 
-        
-
-        private void GrdResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        // 수업 이후 추가내용. 필요시 구현할 것
+        private void CboReqDate_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var curItem = GrdResult.SelectedItem as DustSensor;
-
-            var mapWindow = new MapWindow(curItem.Coordy, curItem.Coordx);
-            mapWindow.Owner = this;
-            mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            mapWindow.ShowDialog();
-        }
-        private void CboRepDate_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            if (CboRepDate.SelectedValue != null)
+            if (CboReqDate.SelectedValue != null)
             {
                 using (SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
                 {
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(Models.DustSensor.SELECT_QUERY, conn);
-                    cmd.Parameters.AddWithValue("@Timestamp", CboRepDate.SelectedValue.ToString());
+                    cmd.Parameters.AddWithValue("@Timestamp", CboReqDate.SelectedValue.ToString());
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dSet = new DataSet();
                     adapter.Fill(dSet, "Dustsensor");
@@ -213,7 +202,7 @@ namespace ex11_Gimhea_FineDust
 
                     this.DataContext = dustSensors;
                     StsResult.Content = $"DB {dustSensors.Count}건 조회완료";
-                }
+                }                
             }
             else
             {
@@ -221,5 +210,15 @@ namespace ex11_Gimhea_FineDust
                 StsResult.Content = $"DB 조회클리어";
             }
         }
+
+        private void GrdResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var curItem = GrdResult.SelectedItem as DustSensor;
+
+            var mapWindow = new MapWindow(curItem.Coordy, curItem.Coordx);
+            mapWindow.Owner = this;
+            mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            mapWindow.ShowDialog();
+        }
     }
- }
+}
